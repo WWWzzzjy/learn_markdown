@@ -82,9 +82,9 @@
 
   
 
-### 分词
+### 分词（BPE，Byte Pair Encoding）
 
-
+BPE 是一种简单的数据压缩算法。BPE也是典型的基于subword的tokenization算法
 
 * 输出 token probably，此时需要选择**解码策略**
 * 总是选择概率最高的的作为下一个输出 token，即；贪婪解码，temperature=0
