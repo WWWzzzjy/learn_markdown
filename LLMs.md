@@ -86,8 +86,11 @@
 
 BPE 是一种简单的数据压缩算法。BPE也是典型的基于subword的tokenization算法
 
+
+
 * 输出 token probably，此时需要选择**解码策略**
-* 总是选择概率最高的的作为下一个输出 token，即；贪婪解码，temperature=0
+* greedy search：总是选择概率最高的的作为下一个输出 token，即；贪婪解码，temperature=0
+* beam search：在解空间中进行**宽度优先搜索 (BFS)**，但引入了**剪枝 (Pruning)** 策略，设定束宽来保持计算可行性
 * Top_P解码：temperature>0，这就是为什么相同输入的情况下输出会不一样，这与解码策略有关
 * Transformer使用并行计算，当生成一个token时并入提示进行循环计算
 * KV caching：使用缓存来加速计算
@@ -248,3 +251,4 @@ Temperature：越大，随机性越大；越小，随机性越小。是一个缩
 ### 奖励攻击
 
 * 使用一个冻结权重的原始LLM模型作为参考模型与RL更新后的LLM模型进行比较，使用KL散度计算衡量两个分布的不同，然后添加一个惩罚项到奖励计算中
+
