@@ -134,7 +134,7 @@ Max new token
 
 top_k：选择softmax后概率最大的k个token进行随机取样
 
-top_p：选择概率最大之和<top_p的token进行随机采样，top_p越大，随机选择的token就越多，意味着创造性就越强
+top_p（top cumulative probability）：选择概率最大之和小于top_p的token进行随机采样，top_p越大，随机选择的token就越多，意味着创造性就越强。top_p的存在是因为由于vocabulary非常大，有几十万个词，因此通过softmax计算出来的会有非常多的低概率的与前文毫无关系的垃圾词，称之为**长尾词**
 
 Temperature：越大，随机性越大；越小，随机性越小。是一个缩放因子，在模型的最后一个Softmax层中应用，影响下一个Token的概率分布形状。不同于top_k/p，调整temperature会改变模型的预测。因为变得是概率，top类参数不改变概率大小，只是一种选择方式改变
 
