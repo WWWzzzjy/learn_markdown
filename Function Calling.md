@@ -2,7 +2,13 @@
 
 +++
 
-> 对于API、SDK、xxx的理解
+> 对于API、SDK、IDE的理解
+>
+> 长期记忆能力
+>
+> Qwen、Gemini、Deepseek 各自技术特点
+>
+> SGLang
 
 ## 定义
 
