@@ -25,8 +25,10 @@
 * `@abstractmethod`：标记一个方法为抽象方法，表示该方法必须在子类中实现。它通常与 `ABC`（抽象基类）一起使用。
 * `@property`：将方法转换为只读属性，使得可以像访问属性一样访问该方法，不用加`()`，但背后依然执行一些代码逻辑。
 * `@dataclass`：
-* `@register`
+* `@register`：Python的注册器Registry提供了字符串到函数或类的[映射](https://zhida.zhihu.com/search?content_id=236726449&content_type=Article&match_order=1&q=映射&zhida_source=entity)，这个映射会被整合到一个字典中，开发者只要输入输入相应的字符串（为函数或类起的名字）和参数，就能获得一个函数或初始化好的类。
 
 +++
 
 ## 库：uuid
+
+UUID 库是用于在计算机系统中生成通用唯一标识符（Universally Unique Identifier）的工具库
