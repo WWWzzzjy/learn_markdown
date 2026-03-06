@@ -65,7 +65,7 @@ LLM推理速度有两个指标，分别是时延和吞吐。
 
 ## Radix Attention 核心原理
 
-<img src="/Users/Zhuanz/Library/Application Support/typora-user-images/image-20260305232214548.png" alt="image-20260305232214548" style="zoom: 25%;" />
+<img src="./assets/image-20260305232214548.png" alt="image-20260305232214548" style="zoom:25%;" />
 
 它的核心是一个精心设计的动态数据结构和工作流程。
 
