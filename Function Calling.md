@@ -8,7 +8,6 @@
 >
 > Qwen、Gemini、Deepseek 各自技术特点
 >
-> SGLang
 
 ## 定义
 
