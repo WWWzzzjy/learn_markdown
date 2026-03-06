@@ -80,7 +80,7 @@
 
 
 
-#### **`single_controller` 模块的内部工作原理**：
+#### `single_controller` 模块的内部工作原理：
 
 ​	当一个 Worker 类的方法需要暴露为分布式调用时，开发人员会在方法定义上加上 `@register` 装饰器，并指定调度模式。当我们创建 `WorkerGroup` 时（例如通过 `ResourcePool` 实例化一组 Ray Actor），`WorkerGroup` 会遍历底层 Worker 类的所有方法，并执行以下操作：
 
