@@ -4,8 +4,6 @@
 
 > 待学习内容：
 >
-> CoT
->
 > MCP 和 Function Calling到底是一个什么概念，再深入学习一下
 >
 > DPO MoE GRPO重新了解一下

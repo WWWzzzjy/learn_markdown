@@ -123,11 +123,13 @@
   | **Megatron (MCore)** | DP+TP+PP+EP+CP (5D并行)                                     | **性能最佳**，专为超大模型（千亿甚至万亿参数）的极致优化设计。但集成新模型的成本也最高，通常需要数周。 | 数周或数月        |
   | **VeOmni**           | FSDP+SP+EP                                                  | 性能和模型支持度介于FSDP和Megatron之间，是一个平衡性选择，目前处于**Alpha测试阶段**。 | 约1周             |
 
+verl同时支持和适配两套训练引擎，即FSDP和Megatron，前者逻辑清晰，且方便支持新的模型结构，research友好；而后者对超大规模（如100B以上）的模型训练更友好，并且参数resharding的开销更小，工程友好；
+
 #### 3D-HybridEngine 的协作
 
 训练引擎是verl引以为傲的**3D-HybridEngine**（3D混合引擎）的核心组成部分。在Actor模型的训练中，3D-HybridEngine实现了**分时复用**：
 
-1. **生成阶段 (Rollout Mode)**：训练引擎的状态会被 **`Offload`（卸载）**到CPU，将宝贵的GPU显存和算力全部让给生成引擎（如vLLM），以最快速度生成数据。
+1. **生成阶段 (Rollout Mode)**：训练引擎的状态会被 **`Offload`（卸载）**到CPU，将宝贵的GPU显存和算力全部让给生成引擎（如vLLM），以最快速度生成数据。	
 2. **训练阶段 (Training Mode)**：数据生成完毕后，释放生成引擎，训练引擎再从CPU**加载**回GPU，全力进行梯度计算和参数更新。
 3. **动态重分片 (Dynamic Resharding)**：由于生成和训练可能采用不同的并行配置（如生成用TP=1，训练用TP=4），训练引擎在加载时需要与`Checkpoint Engine`协同，高效地在设备间重新排布模型参数，实现“零内存冗余”和“最小化通信开销”。
 
