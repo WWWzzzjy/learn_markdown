@@ -18,7 +18,7 @@
 
 +++
 
-## verl
+## [verl](https://zhuanlan.zhihu.com/p/1931076626940139506)
 
 **VeRL**是字节跳动 seed 团队和香港大学开发的专为大预言模型 post training 设计的高性能、可扩展的强化学习框架。它最核心的特点是采用了 **HybridFlow（混合控制器数据流）** 的架构，融合**单控制器（Single-Controller）**的灵活性和**多控制器（Multi-Controller）**的高效性，可更好实现和执行多种RL算法，显著提升训练吞吐量，降低开发和维护复杂度。
 
