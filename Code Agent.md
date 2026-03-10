@@ -7,8 +7,12 @@
 > verl是一个 agent RL训练框架，LocAgent
 >
 > LocAgent了解
+>
+> (Pass@10)
 
 ## 分工
+
++++
 
 **LocAgent**（`./LocAgent/`）是一个**代码定位 Agent 框架**，来自同名论文。它做三件事：
 
@@ -16,11 +20,11 @@
 2. 提供三个核心工具：`search_code_snippets`、`explore_tree_structure`、`get_entity_contents`
 3. 提供独立的推理入口（`auto_search_main.py`）和 SFT 监督微调脚本（`sft_train.py`），可以脱离 RL 独立使用
 
-**verl**（`/verl/`）是 ByteDance 开源的**分布式强化学习训练框架**，负责所有 RL 训练基础设施：PPO/GRPO 算法、Ray 分布式调度、Actor/Critic Worker 管理等。
 
-+++
 
 ## [verl](https://zhuanlan.zhihu.com/p/1931076626940139506)
+
++++
 
 **VeRL **是字节跳动 seed 团队和香港大学开发的专为大预言模型 post training 设计的高性能、可扩展的强化学习框架。它最核心的特点是采用了 **HybridFlow（混合控制器流）** 的架构，融合**单控制器（Single-Controller）**和**多控制器（Multi-Controller）**，可更好实现和执行多种RL算法，显著提升训练吞吐量，降低开发和维护复杂度。
 
