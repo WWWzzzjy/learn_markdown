@@ -2,9 +2,11 @@
 
 +++
 
-> 问题：
+> 
 >
 > verl是一个 agent RL训练框架，LocAgent
+>
+> LocAgent了解
 
 ## 分工
 
