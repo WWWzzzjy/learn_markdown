@@ -22,6 +22,11 @@
 
 **VeRL**是字节跳动 seed 团队和香港大学开发的专为大预言模型 post training 设计的高性能、可扩展的强化学习框架。它最核心的特点是采用了 **HybridFlow（混合控制器数据流）** 的架构，融合**单控制器（Single-Controller）**的灵活性和**多控制器（Multi-Controller）**的高效性，可更好实现和执行多种RL算法，显著提升训练吞吐量，降低开发和维护复杂度。
 
+**Hybrid Flow**：RL的训练逻辑和 Pretrain/SFT 不一样，涉及到多个模型之间的交互和协作。VeRL 将 LLM RL 训练逻辑的 dataflow建模成一个两层的 hybrid flow 问题，进行了解耦，包括：
+
+- **控制流**：位于high-level，描述了**多个模型角色之间的交互逻辑**，如actor make experience结束后，Critic、RM、reference开始计算分数，完成后计算 GAE 和相应 oss；
+- **计算流**：位于low-level，描述了单个**模型角色内部的计算流程**（如前向反向传播、优化器更新、自回归生成等），管理模型的训练和推理具体过程；
+
 ### 1. 数据协议
 
 `DataProto`是 `verl `中所有 `Worker `之间传递数据的统一容器，规定了所有模块间的数据流转方式。`DataProto`的设计目标是**为强化学习训练中复杂的异构数据流提供一个统一的表示和操作接口**，主要分为：
