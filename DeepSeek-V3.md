@@ -116,6 +116,8 @@ https://www.zhihu.com/tardis/zm/art/19868935152?source_id=1003
 
 
 
+提出了 RLVR
+
 ## R1-Distill
 
 使用 R1 阶段三两次 SFT 的 80w 数据，使用小模型直接进行 SFT

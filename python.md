@@ -15,6 +15,7 @@
 * `mp.lock()`：写文件锁，防止多个进程同时写文件/更改共享资源
 * `mp.manager()`：启动一个“管理进程”
 * `mp.spawn()`：批量启动 N 个进程（PyTorch 分布式/DDP 常用）
+* `mp.get_context()`
 
 +++
 
