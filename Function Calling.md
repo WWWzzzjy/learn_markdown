@@ -16,3 +16,61 @@
   * 通过SFT、RL，使大模型具备根据上下文正确选择合适函数、生成有效参数的能力
   * 模型API额外开放对Function Calling的支持
 
+### 标准 Function Calling 请求格式
+
+```python
+# 调用时，除了 messages，还传入 tools 参数
+response = openai.chat.completions.create(
+    model="gpt-4o",
+    messages=[
+        {"role": "user", "content": "帮我搜索 calculate_sum 函数"}
+    ],
+    tools=[  # ← 额外传入工具描述
+        {
+            "type": "function",
+            "function": {
+                "name": "search_code_snippets",
+                "description": "搜索代码片段",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "search_terms": {"type": "array", "items": {"type": "string"}}
+                    }
+                }
+            }
+        }
+    ]
+)
+```
+
+### 标准 Function Calling 响应格式
+
+```python
+response.choices[0].message = {
+    "role": "assistant",
+    "content": None,          # ← 文本内容为空
+    "tool_calls": [           # ← 结构化工具调用
+        {
+            "id": "call_abc123",
+            "type": "function",
+            "function": {
+                "name": "search_code_snippets",   # ← 函数名
+                "arguments": '{"search_terms": ["calculate_sum"]}'  # ← 参数（JSON字符串）
+            }
+        }
+    ]
+}
+```
+
+### Qwen 等早期开源模型，不支持FC协议，使用 XML 格式
+
+```python
+<tool_call>
+{"name": "search_code_snippets", "arguments": {"search_terms": ["calculate_sum"]}}
+</tool_call>
+
+<execute_ipython>
+search_code_snippets(search_terms=["calculate_sum"])
+</execute_ipython>
+```
+
