@@ -5,6 +5,8 @@
 > 问题：
 >
 > verl是一个 agent RL训练框架，LocAgent
+>
+> Action类全装饰为@dataclass何意味
 
 ## 分工
 
