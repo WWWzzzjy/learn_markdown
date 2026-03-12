@@ -14,7 +14,7 @@
 >
 > FSDP（ZeRO-3
 >
-> 用 规则 reward 替代，规则是什么
+> 
 >
 > vit Qwen
 >
