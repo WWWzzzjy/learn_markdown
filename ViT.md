@@ -21,7 +21,7 @@
 
 ## Method
 
-<img src="D:\ZJU\自学\ViT.assets\image-20251118092928202-1763439947868-1.png" alt="image-20251118092928202" style="zoom:50%;" />
+<img src="./assets/image-20251118092928202-1763439947868-1.png" alt="image-20251118092928202-1763439947868-1" style="zoom:50%;" />
 
 ### 线性投射层E：768x*768（D）*
 
