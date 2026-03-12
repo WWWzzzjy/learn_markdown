@@ -6,17 +6,21 @@
 
 > LocAgent工具了解一下、基于图的repo关系构建
 >
-verl 训练实现过程
-> 
->meta RL
-> 
-lora
-> 
+> verl 训练实现过程
 >
-> 
->FSDP（ZeRO-3
-> 
->用 规则 reward 替代，规则是什么
+> meta RL
+>
+> lora
+>
+> FSDP（ZeRO-3
+>
+> 用 规则 reward 替代，规则是什么
+>
+> vit Qwen
+>
+> 并行工具调用论文
+>
+> skill
 
 ## 分工
 

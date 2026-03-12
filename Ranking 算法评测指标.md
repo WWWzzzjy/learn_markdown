@@ -1,0 +1,22 @@
+# 累积增益（Cumulative Gain, CG）
+
++++
+
+
+
+# 折损累计增益（[Discounted cumulative gain](https://zhida.zhihu.com/search?content_id=118397824&content_type=Article&match_order=1&q=Discounted+cumulative+gain&zd_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzM0NjQ1ODAsInEiOiJEaXNjb3VudGVkIGN1bXVsYXRpdmUgZ2FpbiIsInpoaWRhX3NvdXJjZSI6ImVudGl0eSIsImNvbnRlbnRfaWQiOjExODM5NzgyNCwiY29udGVudF90eXBlIjoiQXJ0aWNsZSIsIm1hdGNoX29yZGVyIjoxLCJ6ZF90b2tlbiI6bnVsbH0.LQmWmfYxxE8oiwmWezBMIntulcFAufI7nwMo-k9HeRM&zhida_source=entity)，DCG）
+
++++
+
+对于列表长度不一的情况无法进行比较，因此引入NDCG
+
+
+
+# 归一化折损累计增益（[Normalized Discounted Cumulative Gain](https://zhida.zhihu.com/search?content_id=118397824&content_type=Article&match_order=1&q=Normalized+Discounted+Cumulative+Gain&zd_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJ6aGlkYV9zZXJ2ZXIiLCJleHAiOjE3NzM0NjQ1ODAsInEiOiJOb3JtYWxpemVkIERpc2NvdW50ZWQgQ3VtdWxhdGl2ZSBHYWluIiwiemhpZGFfc291cmNlIjoiZW50aXR5IiwiY29udGVudF9pZCI6MTE4Mzk3ODI0LCJjb250ZW50X3R5cGUiOiJBcnRpY2xlIiwibWF0Y2hfb3JkZXIiOjEsInpkX3Rva2VuIjpudWxsfQ.oLoDfuqczt0w_2dtOsrPjqwGXKqj8EGCi9c27Vi-WFs&zhida_source=entity), NDCG）
+
++++
+
+
+
+
+
