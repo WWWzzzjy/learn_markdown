@@ -4,25 +4,18 @@
 
 
 
-> LocAgent工具了解一下、基于图的repo关系构建
->
-> verl 训练实现过程
->
 > meta RL
 >
 > lora
 >
-> FSDP（ZeRO-3
->
-> 
+> SGLang：Continuous Batching 
 >
 > vit Qwen
 >
 > 并行工具调用论文
 >
-> skill
 
-## 分工
+## LocAgent
 
 +++
 
@@ -32,7 +25,7 @@
 2. 提供三个核心工具：`search_code_snippets`、`explore_tree_structure`、`get_entity_contents`
 3. 提供独立的推理入口（`auto_search_main.py`）和 SFT 监督微调脚本（`sft_train.py`），可以脱离 RL 独立使用
 
-#### 入口文件 `auto_search_main.py`流程
+### 入口文件 `auto_search_main.py`流程
 
 ```
 main()
@@ -53,7 +46,12 @@ main()
 * 使用`MRR(Mean Reciprocal Rank，平均倒数排序) / majority(多次投票)`对多次采样结果进行融合排序
 * `Pass@k`表示对于每个问题，模型生成的 Top-k 的候选答案中，至少一个是与真实答案匹配的概率
 
+### 工具
 
+*  `SearchEntity`：根据关键字检索相关实体，如果关键字是Entity ID则直接图节点匹配；如果是名字，走BM25稀疏检索
+* `TraverseGraph`：节点为起点，在图上做 BFS，输出树形的依赖关系文本。支持搜索方向（upstream/downstream/both）、深度、节点类型过滤、边类型过滤。
+  * `batch_build_graph.py`：利用AST（抽象语法树）解析repo结构，返回为`networkx.MultiDiGraph`图数据结构并且保存为.pkl序列化成二进制文件
+* `RetrieveEntity`：根据 Entity ID 拿出实体的完整代码
 
 ## [verl](https://zhuanlan.zhihu.com/p/1931076626940139506)
 
