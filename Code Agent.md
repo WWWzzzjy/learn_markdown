@@ -14,13 +14,10 @@
 >
 > FSDP（ZeRO-3
 >
-> 
->
 > vit Qwen
 >
 > 并行工具调用论文
 >
-> skill
 
 ## 分工
 
