@@ -17,6 +17,8 @@ LLM推理速度有两个指标，分别是时延和吞吐。
 * 所谓时延，就是单条请求从发出到完成计算的时间，这个vLLM确实没有明显提高。
 *  但是对于吞吐，是说服务器单位时间内完成了多少条请求的计算，因为优化了显存，可以增加单位时间内处理的请求数，所以吞吐会大幅增加
 
+vLLM在推理时使用的分布策略是TP
+
 
 
 ## Page Attention
@@ -43,7 +45,7 @@ LLM推理速度有两个指标，分别是时延和吞吐。
 
   <img src="D:\ZJU\自学\vllm.assets\image-20260303153554580.png" alt="image-20260303153554580" style="zoom:50%;" />
 
-* Sharing KV Blocks：对于同一个prompt，希望生成n个Output。
+* **Sharing KV Blocks**：对于同一个prompt，希望生成n个Output。
 
   在物理显存KV Cache中，会标注每一个Block被逻辑内存中Block引用的次数，当引用数=0时，Block被占用的显存被释放。
 
@@ -65,7 +67,7 @@ LLM推理速度有两个指标，分别是时延和吞吐。
 
 ## Radix Attention 核心原理
 
-<img src="./assets/image-20260305232214548.png" alt="image-20260305232214548" style="zoom:25%;" />
+<img src="./assets/image-20260305232214548.png" alt="image-20260305232214548" style="zoom: 80%;" />
 
 它的核心是一个精心设计的动态数据结构和工作流程。
 
