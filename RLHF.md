@@ -48,7 +48,7 @@
 
   1. 目标模型是**Actor Model / Policy Model**；
   2. 其中参考模型是SFT模型；
-  3. 奖励模型是在SFT模型最后一个transformer layer的输出加一个线性层，生成单一的奖励标量，也需要训练
+  3. 奖励模型是在SFT模型最后一个transformer block的输出（隐藏向量）加一个线性层，生成单一的奖励标量，也需要训练
   4. 价值模型**Value Model / Critic Model**也是需要训练的，用于
 
 + **Reward Model**
@@ -63,9 +63,13 @@
 
 ​	BT模型用于建立偏好模型，可以将问题定义为一个二元分类问题，得到负对数似然损失：
 
-​	$\mathrm{loss}\left(\theta\right)=-\frac{1}{\binom{K}{2}}E_{(x,y_w,y_l)\sim D}\left[\log\left(\sigma\left(r_\theta\left(x,y_w\right)-r_\theta\left(x,y_l\right)\right)\right)\right]$
+​	损失函数：$\mathrm{loss}\left(\theta\right)=-\frac{1}{\binom{K}{2}}E_{(x,y_w,y_l)\sim D}\left[\log\left(\sigma\left(r_\theta\left(x,y_w\right)-r_\theta\left(x,y_l\right)\right)\right)\right]$
 
 ![image-20260107142706619](D:\ZJU\自学\RLHF.assets\image-20260107142706619.png)
+
+​	防止奖励模型的过度优化，对奖励计算增加了一个KL散度
+
+![image-20260318234100100](./assets/image-20260318234100100.png)
 
 * **Value Model**
 
@@ -80,6 +84,10 @@
 ​	$J_{PPO}(\theta)=\mathbb{E}[q\sim P(Q),o\sim\pi_{\theta_{old}}(O|q)]\frac{1}{|o|}\sum_{t=1}^{|o|}\min\left[\frac{\pi_\theta(o_t|q,o_{<t})}{\pi_{\theta_{old}}(o_t|q,o_{<t})}A_t,\mathrm{clip}\left(\frac{\pi_\theta(o_t|q,o_{<t})}{\pi_{\theta_{old}}(o_t|q,o_{<t})},1-\varepsilon,1+\varepsilon\right)A_t\right]$
 
 > **PPO 中“1 个 batch 用于 ppo-epochs 次 loss 计算”的本质，是在固定旧策略和经验分布的前提下，对同一批高成本采样数据进行多次受限策略优化，从而在不增加 rollout 成本的情况下显著提升样本利用效率。**
+>
+> on-policy 数据的复用。
+>
+> PPO 的设计是用同一批采样数据更新 K 次，第一次 mini-batch 时 ratio 确实为 1，从第二次开始参数已经变了，ratio 开始偏离，Clip 机制就是为了防止多次更新后偏离过大
 
 > **在 LLM 的 PPO/RLHF 框架中，尽管奖励模型仅对完整生成序列给出一个终止奖励，但该奖励被视为 episode 末端的稀疏回报，并通过价值函数估计与广义优势估计（GAE）机制沿 token 时间轴向前传播，从而为每个 token 构造对应的优势信号，实现序列级奖励到 token 级策略更新的信用分配。**
 >

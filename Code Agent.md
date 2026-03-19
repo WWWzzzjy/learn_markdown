@@ -71,10 +71,14 @@ main()
 
 - **控制流**：位于high-level，使用**单进程**，描述了**多个模型角色之间的交互逻辑**，如actor make experience结束后，Critic、RM、reference开始计算分数，完成后计算 GAE 和相应 loss；
 
+  中心进程同意调度的所有计算节点（worker）
+
 - **计算流**：位于low-level，使用**多进程**，描述了单个**模型角色内部的计算流程**（如前向反向传播、优化器更新、自回归生成等），管理模型的训练和推理具体过程；
 
-  <img src="./assets/v2-dacf92cf5850fe2e99d040ac5d8a41a0_r.jpg" alt="img" style="zoom:50%;" />
+  下层每一个worker内部做高效的分布式计算
 
+  <img src="./assets/v2-dacf92cf5850fe2e99d040ac5d8a41a0_r.jpg" alt="img" style="zoom:50%;" />
+  
   > 控制器（Driver Process）在单个进程中运行，而执行器（Rollout, Actor, Critic）等Worker Process会放置在特定的资源组（Resource Pool）中在多个进程中运行。
 
 ### 1. 数据协议
@@ -152,11 +156,26 @@ single_controller/
 
 * `Worker`：Worker 是所有分布式计算节点的基类，每个 Ray Actor 都继承自 Worker。
 
-  * **WorkerHelper**：提供获取节点 IP、空闲端口的静态方法。
-  *  **Worker：** 基础 Worker 类，处理分布式初始化（rank、world_size 配置）、设备管理。
-  * **MegatronWorker**：专为 Megatron 并行策略设计的 Worker，处理 TP/PP/DP 分组初始化。
+  * WorkerHelper：提供获取节点 IP、空闲端口的静态方法。
+  *  Worker： 基础 Worker 类，处理分布式初始化（rank、world_size 配置）、设备管理。
+  * MegatronWorker：专为 Megatron 并行策略设计的 Worker，处理 TP/PP/DP 分组初始化。
 
-* `WorkerGroup`：**它代表一组在分布式环境中的实际 Worker（封装一组同构的 Ray Actor），并提供统一的RPC 的调用接口去调用所有 Worker 的方法**
+* `WorkerGroup`：**它代表一组在分布式环境中的实际 Worker（封装一组同构的 Ray Actor），并提供统一的RPC 的调用接口去调用所有 Worker 的方法**。VERL实现了WorkerGroup绑定了一组 Worker 的方法，能通过在控制流中一次调用，触发关联的多个Worker执行远程任务
+
+  
+
+  ```python
+  class WorkerGroup:
+      def generate_sequences():
+          chunks = dispatch_fn(batch, n=len(self.workers))
+          futures = [
+              worker.generate_sequences.remote(chunk)
+              for worker, chunk in zip(self.workers, chunks)
+      	]
+          results = ray.get(futures)
+  ```
+
+  
 
   | **类名**                 | **说明**                                                     |
   | ------------------------ | :----------------------------------------------------------- |
@@ -170,8 +189,6 @@ single_controller/
   * `@register(dispatch_mode, execute_mode)`：标记 Worker 方法，指定数据如何分发（scatter / broadcast）以及函数的执行方式。
 
   
-
-**WorkerGroup 的 ==动态方法绑定机制==**：当一个Worker类（如 `ActorRolloutRefWorker`）的方法被 `@register` 装饰器标记后，在其所属的 `WorkerGroup` 初始化时，它会自动为这个方法生成一个分布式版本，并将其绑定到 `WorkerGroup` 身上。
 
 ```python
 # Worker Process类：Worker 和 WorkerGroup
@@ -298,11 +315,13 @@ RayPPOTrainer类扮演着Driver Process的角色， 它负责初始化并构建 
 
 训练引擎是verl引以为傲的**3D-HybridEngine**（3D混合引擎）的核心组成部分。在Actor模型的训练中，3D-HybridEngine实现了**分时复用**：
 
-1. **生成阶段 (Rollout Mode)**：训练引擎的状态会被 **`Offload`（卸载）**到CPU，将宝贵的GPU显存和算力全部让给生成引擎（如vLLM），以最快速度生成数据。	
-2. **训练阶段 (Training Mode)**：数据生成完毕后，释放生成引擎，训练引擎再从CPU**加载**回GPU，全力进行梯度计算和参数更新。
-3. **动态重分片 (Dynamic Resharding)**：由于生成和训练可能采用不同的并行配置（如生成用TP=1，训练用TP=4），训练引擎在加载时需要与`Checkpoint Engine`协同，高效地在设备间重新排布模型参数，实现“零内存冗余”和“最小化通信开销”。
+1. **生成阶段 (Rollout Mode)**：训练引擎的状态（FSDP 分片权重、优化器状态、梯度）会被 **`Offload`（卸载）**到CPU，GPU 加载 vLLM 权重和KV cache；	
 
-`BaseEngineCtx / EngineTrainModeCtx / EngineEvalModeCtx`：训练/推理模式切换的 Context Manager，在进入/退出时自动处理参数和优化器状态的 CPU offload，实现训练与 Rollout 之间的内存共享复用。
+2. **训练阶段 (Training Mode)**：数据生成完毕后，释放生成引擎（KV Cache释放），训练引擎再从CPU**加载**回GPU，全力进行梯度计算和参数更新。
+
+3. **代价是 PCIe 搬运时间**
+
+   
 
 ### 4. VeRL 配置管理
 
