@@ -19,6 +19,8 @@ LLM推理速度有两个指标，分别是时延和吞吐。
 
 vLLM在推理时使用的分布策略是TP
 
+## Continuous batching
+
 
 
 ## Page Attention
@@ -33,13 +35,13 @@ vLLM在推理时使用的分布策略是TP
 
   <img src="D:\ZJU\自学\vllm.assets\image-20260303151335448.png" alt="image-20260303151335448" style="zoom:50%;" />
 
-* page attention 将显存划分为不同的KV Block来管理KV Cache，llm每个请求需要的KV Cache被划分到不同的KV Block（每个Block中可以缓存的token的KV Cache数量是固定的， 一个token序列分配到的KV Block在物理显存中可以是不连续的）
+* page attention 将显存划分为不同的KV Block来管理KV Cache，llm每个请求需要的KV Cache被划分到不同的KV Block（每个Block中可以缓存的token的KV Cache数量是固定的， 一个序列分配到的KV Block在物理显存中可以是不连续的）
 
   <img src="D:\ZJU\自学\vllm.assets\image-20260303152113006.png" alt="image-20260303152113006" style="zoom:50%;" />
 
-* 对于后续生成的token的KV，会被继续加载到未被填满的Block中
+* 对于序列中后续生成的token的KV，会被继续加载到未被填满的Block中
 
-* 对于每一个request，都有一个逻辑KV Cache（显存是连续的），然后vLLM维护一个**映射表**到物理显存的KV Cache
+* 对于每一个request，都有一个逻辑KV Cache Block（显存是连续的），然后vLLM维护一个**映射表**到物理显存的KV Cache
 
   <img src="D:\ZJU\自学\vllm.assets\image-20260303153554580.png" alt="image-20260303153554580" style="zoom:50%;" />
 
