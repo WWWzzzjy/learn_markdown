@@ -139,7 +139,7 @@ GRPO：
 
 2. **Reward函数**：为了实行并行工具调用和解决 credit assignment，利用NDCG和tool efficiency作为奖励函数。为了控制 轮数限制，在reward中再加一个token长度惩罚项（token/token_budget）
 
-   轨迹中每轮LLM调用工具返回的实体都记录下来形成一个tool_call集合，然后每一次调用都计算当前返回的实体中有多少是在tool集合中没见过的，计算一个0~1的tool efficiency。然后对每轮工具调用计算的NDCG做差分
+   轨迹中每轮LLM调用工具返回的实体都记录下来形成一个tool_call集合，然后每一次调用都计算当前返回的实体中有多少是在entities history集合中没见过的，计算一个0~1的tool efficiency。然后对每轮工具调用计算的NDCG做差分
 
    α·NDCG@5 + β（NDCG@5 · e）
 
@@ -198,7 +198,7 @@ main()
 - WorkerGroup 代理多进程 Worker，通过装饰器封装分布式逻辑。
 - 控制器仅需调用高层 API，底层自动处理数据并行和结果聚合。
 
-**Hybrid Flow**：RL的训练逻辑和 Pretrain/SFT 不一样，涉及到多个模型之间的交互和协作。VeRL 将 LLM RL 训练逻辑的 dataflow建模成一个两层的 hybrid flow 问题，进行了解耦，包括：
+**Hybrid Flow**：RL的训练逻辑和 Pretrain/SFT 不一样，涉及到多个模型之间的交互和协作。VeRL 将 LLM RL 训练逻辑的 dataflow 建模成一个两层的 hybrid flow 问题，进行了解耦，包括：
 
 - **控制流**：位于high-level，使用**单进程**，描述了**多个模型角色之间的交互逻辑**，如actor make experience结束后，Critic、RM、reference开始计算分数，完成后计算 GAE 和相应 loss；
 
