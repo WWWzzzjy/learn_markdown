@@ -83,7 +83,7 @@
 
 ​	$J_{PPO}(\theta)=\mathbb{E}[q\sim P(Q),o\sim\pi_{\theta_{old}}(O|q)]\frac{1}{|o|}\sum_{t=1}^{|o|}\min\left[\frac{\pi_\theta(o_t|q,o_{<t})}{\pi_{\theta_{old}}(o_t|q,o_{<t})}A_t,\mathrm{clip}\left(\frac{\pi_\theta(o_t|q,o_{<t})}{\pi_{\theta_{old}}(o_t|q,o_{<t})},1-\varepsilon,1+\varepsilon\right)A_t\right]$
 
-> **PPO 中“1 个 batch 用于 ppo-epochs 次 loss 计算”的本质，是在固定旧策略和经验分布的前提下，对同一批高成本采样数据进行多次受限策略优化，从而在不增加 rollout 成本的情况下显著提升样本利用效率。**
+> **PPO 中“1 个 batch 用于 ppo-epochs 次 loss 计算”的本质，是在固定旧策略和经验分布的前提下，对同一个高成本采样数据进行多次受限策略优化，从而在不增加 rollout 成本的情况下显著提升样本利用效率。**
 >
 > on-policy 数据的复用。
 >
