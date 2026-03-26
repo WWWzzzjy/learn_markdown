@@ -27,7 +27,7 @@ vLLM在推理时使用的分布策略是TP
 
 ### 优势：
 
-* 减少显存碎片和冗余拷贝，从而让更多请求能一起 batch 进去，提升吞吐
+* **减少显存碎片和冗余拷贝**，从而让更多请求能一起 batch 进去，提升吞吐
 
 ### 原理：
 
@@ -49,7 +49,7 @@ vLLM在推理时使用的分布策略是TP
 
   在物理显存KV Cache中，会标注每一个Block被逻辑内存中Block引用的次数，当引用数=0时，Block被占用的显存被释放。
 
-  Copy on Write机制：当开始生成时，发现继续写入的Block的引用数为n时，触发机制。拷贝写入的Block到一个新的Block，然后各自开始生成，但是prompt起始部分的KV Block是共享的。
+  **Copy on Write机制**：当开始生成时，发现继续写入的Block的引用数为n时，触发机制。拷贝写入的Block到一个新的Block，然后各自开始生成，但是prompt起始部分的KV Block是共享的。
 
 * 优化Beam Search中的显存占用，因为有共用token
 

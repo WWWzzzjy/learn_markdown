@@ -8,7 +8,7 @@ DeepSpeed ZeRO 将显存
 
 +++
 
-abanding 模型
+
 
 知识图谱
 
