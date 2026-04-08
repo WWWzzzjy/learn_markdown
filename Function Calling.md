@@ -15,6 +15,7 @@
 * 狭义：指大模型内部与API做了相关支持的一种能力，最早由OpenAI引入。
   * 通过SFT、RL，使大模型具备根据上下文正确选择合适函数、生成有效参数的能力
   * 模型API额外开放对Function Calling的支持
+* 工具定义通过 `tools` 参数传入，模型的调用结果通过 `tool_calls` 字段返回，observation 通过 `role: "tool"` 回传
 
 ### 标准 Function Calling 请求格式
 
