@@ -52,6 +52,4 @@
 
 
 
-
-
 * 为了与ResNet相比较，增加了一些强约束（正则化）：dropout、weight decay、label smoothing
