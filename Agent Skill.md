@@ -13,7 +13,7 @@
 
 ### 组成
 
-一个`SKILL.md`文件再加上scripts脚本文件或者还有一下 .md 子文档
+一个`SKILL.md`文件再加上scripts脚本文件或者还有一些 .md 子文档
 
 **Skill name + Description** 用自然语言定义这个 Skill 的能力范围和触发条件。Agent 的规划模块通过理解这段描述来判断当前任务是否需要调用这个 Skill。
 
