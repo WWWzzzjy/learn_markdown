@@ -115,17 +115,11 @@
 6. 工程级别的分层 prompt 模板：
 
 
-      1. system prompt：最底层的，包含了Agent 的**角色定位、安全边界和全局行为约束**（包括输出格式规范）
-
-
+     1. system prompt：最底层的，包含了Agent 的**角色定位、安全边界和全局行为约束**（包括输出格式规范）
 
       2. domain prompt：注入的是**领域知识**和**业务逻辑**，不同业务线可以有不同的领域层
 
-
-
       3. task prompt：few-shot示例，针对**具体任务的指令模板**，通常包含结构化的输入槽位和输出格式要求
-
-
 
       4. context：这一部分主要包括当前的历史对话、检索到的记忆、工具调用结果等，每一轮交互都会动态更新
 
@@ -225,21 +219,21 @@
 
     1. 任务层面：
 
-       * 任务成功率（Success Rate）/ Pass@k（代码和搜索场景）
-       * 回答质量：事实准确性、相关性、完整性
-       * 过程方面：工具调用准确率 / 参数匹配率 / 错误恢复能力
+       * **任务成功率 **（Success Rate）/ Pass@k（代码和搜索场景）
+       * 回答质量：事实**准确性**、相关性、完整性，**行为稳定是否可复现**
+       * 过程方面：**工具调用准确率 / 参数匹配率 / 错误恢复能力**
 
     2. 系统层面：
 
-       * 端到端延迟（End-to-End Latency）、TTFT、QPS、TPS
-       * 平均 token 消耗、平均工具调用次数、推理循环次数
-       * 成本可否接受
+       * **端到端延迟（End-to-End Latency）、TTFT、QPS、TPS**
+       * **平均 token 消耗、平均工具调用次数、推理循环次数**
+       * **成本可否接受**
 
     3. 安全层面：
 
-       * Hallucination Rate
-       * 指令遵循度（Instruction Following）
-       * 安全边界（Safety Boundary）：包括 prompt injection 的防御能力、敏感信息泄露防护
+       * **Hallucination** Rate
+       * **指令遵循度**（Instruction Following）
+       * **安全边界（Safety Boundary）：包括 prompt injection 的防御能力、敏感信息泄露防护**
 
        
 
@@ -362,7 +356,7 @@
 
     1. **Tool**：Agent 能力的最小粒度，是 LLM 可以直接调用的函数，在代码里是写死定义与实现的。LLM 在 system prompt 中看到 tool 定义，在推理的过程中决定是否调用，在本地执行代码并返回结果。本质是单次的函数调用
     2. **MCP**：标准化的工具调用协议。tool 在每一个 Agent 都需要实现一遍接口对接，MCP就是把 tool进行封装，LLM 只需要输出标准输出，就能得到返回结果。
-    3. **Skill**：是一个能力描述文本，以 system prompt 形式存在，被写入一个.md 文件中，描述了 Agent 能力的描述，真正执行的还是 Tool 或者 MCP
+    3. **Skill**：是一个**能力描述文本**，以 system prompt 形式存在，被写入一个.md 文件中，描述了 Agent 能力的描述，真正执行的还是 Tool 或者 MCP
 
 22. Multi-agent是什么
 
